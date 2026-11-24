@@ -1,0 +1,26 @@
+name: Sync to GitFlic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Push to GitFlic
+        env:
+          GITFLIC_TOKEN: ${{ secrets.GITFLIC_TOKEN }}
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          test -n "$GITFLIC_TOKEN" || { echo "Missing GITFLIC_TOKEN"; exit 1; }
+          umask 077
+          helper=$(mktemp)
+          trap 'rm -f "$helper"' EXIT
+          printf '%s\n' '#!/bin/sh' 'case "$1" in *Username*) printf "%s\\n" cai ;; *) printf "%s\\n" "$GITFLIC_TOKEN" ;; esac' > "$helper"
+          chmod 700 "$helper"
+          export GIT_ASKPASS="$helper"
+          git push https://gitflic.ru/project/cfu_cai/serg_3d_wardrobe.git HEAD:refs/heads/main
