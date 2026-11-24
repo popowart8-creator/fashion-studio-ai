@@ -1,0 +1,4 @@
+Fashion Studio AI v0.1
+Install Python 3.11 x64 from python.org, extract ZIP, run start.bat.
+Requires a separately configured remote ComfyUI server with virtual try-on nodes.
+Export a tested workflow in API format, with two LoadImage nodes and one SaveImage node. Configure dress category in the workflow itself. Enter their IDs in the sidebar. Use a private HTTPS endpoint or secure tunnel; do not expose unauthenticated ComfyUI publicly. Photos are transmitted to the configured server. No cloud account or model is bundled. Results are saved in results/. Eight reference photos must be supplied by the user; the app does not generate poses or change backgrounds. Side and detail views use front garment reference except rear view, which uses back. Review all outputs before publication. Prototype, not tested against a live server.
